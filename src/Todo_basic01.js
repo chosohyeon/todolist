@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const App = () => {
+const Todo_basic01 = () => {
     const [input, setInput] = useState(); // useState(초기값);
     const [list, setList] = useState([])
     return (
@@ -18,4 +18,4 @@ const App = () => {
     )
 }
 
-export default App
+export default Todo_basic01

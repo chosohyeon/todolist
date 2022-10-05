@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const App = () => {
+const Todo_basic02 = () => {
     const [todo, setTodo] = useState({});
     const [todolist, setTodolist] = useState([]);
     return (
@@ -18,4 +18,4 @@ const App = () => {
     )
 }
 
-export default App
+export default Todo_basic02
