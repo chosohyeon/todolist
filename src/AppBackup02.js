@@ -1,16 +1,12 @@
 import React, { useState, useRef } from 'react'
-import { Link, Route, Routes, NavLink, useNavigate } from 'react-router-dom';
-import TodoList from './TodoList';
-import TodoWrite from './TodoWrite';
 
 const App = () => {
     const [word, setWord] = useState({});
     const [list, setList] = useState([]);
+
     const num = useRef(1);
     const inputTitle = useRef(null);
     const inputContent = useRef(null);
-
-    const navi = useNavigate();
 
     const handlerWord = (e) => {
         const { name, value } = e.target;
@@ -62,31 +58,22 @@ const App = () => {
             content: "",
         })
         num.current++
-        navi('/Board')
     }
     return (
-
         <div>
-            <nav>
-                <NavLink to='/'> HOME</NavLink>
-                <NavLink to='/Board'> BOARD</NavLink>
-                <NavLink to='/Write'> WRITE</NavLink>
-            </nav>
-            <Routes>
-                <Route path='/' element={<TodoList list={list} setList={setList} />} />
-                <Route path='/Board' element={<TodoList list={list} setList={setList} />} />
-                <Route path='/Write' element={
-                    <TodoWrite
-                        list={list}
-                        word={word}
-                        handlerWord={handlerWord}
-                        handlerList={handlerList}
-                        inputTitle={inputTitle}
-                        inputContent={inputContent}
-                    />
-                } />
-            </Routes>
-
+            <h2>list</h2>
+            <ul>
+                {
+                    list.map((li, idx) => <li key={li.id}>{li.title} : {li.content}</li>)
+                }
+            </ul>
+            <hr />
+            <div>{console.log(list)}</div>
+            <div><input type="text" onChange={handlerWord} name='title' value={word.title || ''} ref={inputTitle} /></div>
+            <div><input type="text" onChange={handlerWord} name='content' value={word.content || ''} /></div>
+            <div>
+                <button onClick={handlerList}>WRITE</button>
+            </div>
 
         </div>
     )
