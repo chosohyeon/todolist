@@ -1,92 +1,37 @@
-import React, { useState, useRef } from 'react'
-import { Link, Route, Routes, NavLink, useNavigate } from 'react-router-dom';
-import TodoList from './TodoList';
-import TodoWrite from './TodoWrite';
+import React, { useRef, useState } from 'react'
+import { NavLink, Link, Route, Routes } from 'react-router-dom';
+import List from './board/List';
+import View from './board/View';
+import Write from './board/Write';
+import Modify from './board/Modify';
 
 const App = () => {
-    const [word, setWord] = useState({});
-    const [list, setList] = useState([]);
-    const num = useRef(1);
-    const inputTitle = useRef(null);
-    const inputContent = useRef(null);
+    const [input, setInput] = useState({});
+    const [boardList, setBoardList] = useState([]);
+    const id = useRef(1);
 
-    const navi = useNavigate();
-
-    const handlerWord = (e) => {
-        const { name, value } = e.target;
-        setWord({
-            ...word,
-            [name]: value,
-            id: num.current
-        })
-    }
-
-    const handlerList = () => {
-        if (!word.title || !word.content) {
-            alert('내용을 입력해주세요.');
-            return
-        }
-        if (word.title.length < 5) {
-            alert('5자 이상 입력해주세요.');
-            //1. 입력창을 비우기 2. 비운 입력창에 포커스 주기
-            setWord({
-                ...word,
-                title: "",
-            });
-            inputTitle.current.focus();
-            return
-        }
-        const hg = /^[ㄱ-ㅎ가-힣]*$/;
-        if (!hg.test(word.title)) {
-            alert('한글만 입력해주세요...');
-            setWord({
-                ...word,
-                title: "",
-            });
-            inputTitle.current.focus();
-            return
-        }
-        if (word.content.length < 5) {
-            alert('5자 이상 입력해주세요.');
-            //1. 입력창을 비우기 2. 비운 입력창에 포커스 주기
-            setWord({
-                ...word,
-                title: "",
-            });
-            inputTitle.current.focus();
-            return
-        }
-        setList([...list, word]);
-        setWord({
-            title: "",
-            content: "",
-        })
-        num.current++
-        navi('/Board')
-    }
     return (
-
         <div>
-            <nav>
-                <NavLink to='/'> HOME</NavLink>
-                <NavLink to='/Board'> BOARD</NavLink>
-                <NavLink to='/Write'> WRITE</NavLink>
-            </nav>
+            <header>
+                <nav>
+                    <ul>
+                        <li><NavLink to='/'>HOME</NavLink></li>
+                        <li><NavLink to='/board'>BOARD</NavLink></li>
+                        <li><NavLink to='/view'>VIEW</NavLink></li>
+                        <li><NavLink to='/write'>WRITE</NavLink></li>
+                    </ul>
+                </nav>
+            </header>
+
             <Routes>
-                <Route path='/' element={<TodoList list={list} setList={setList} />} />
-                <Route path='/Board' element={<TodoList list={list} setList={setList} />} />
-                <Route path='/Write' element={
-                    <TodoWrite
-                        list={list}
-                        word={word}
-                        handlerWord={handlerWord}
-                        handlerList={handlerList}
-                        inputTitle={inputTitle}
-                        inputContent={inputContent}
-                    />
-                } />
+                <Route path='/' element={<div>HOME</div>} />
+                <Route path='/board' element={<List boardList={boardList} />} />
+                <Route path='/view/:id' element={<View boardList={boardList} setBoardList={setBoardList} />} />
+                <Route path='/modify/:id' element={<Modify boardList={boardList} setBoardList={setBoardList} />} />
+                <Route path='/write' element={<Write input={input} setInput={setInput} boardList={boardList} setBoardList={setBoardList} id={id} />} />
             </Routes>
 
+            {console.log(input)}
 
         </div>
     )
