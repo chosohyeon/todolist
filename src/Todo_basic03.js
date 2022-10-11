@@ -21,6 +21,9 @@ const Todo_basic03 = () => {
             // 6자 이상, 영문, 숫자를 포함
             id: /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{6,}$/,
 
+            // 6자 이상, 영문, 숫자, 특수문자(?)를 포함
+            pw: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+|<>?:{}])[a-zA-Z0-9]{6,}$/,
+
             //영문과 숫자로만
             ennum: /^[a-zA-Z0-9]*$/,
 
@@ -78,10 +81,12 @@ const Todo_basic03 = () => {
         num.current++
     }
 
+    //작성된 리스트 삭제 버튼
     const handlerDelete = (id) => {
         setTodolist(todolist.filter(it => id !== it.id))
     }
 
+    //작성된 리스트 수정(?)
     const handlerModify = (id) => {
         console.log(id);
         setTodolist(todolist.map(it => (
@@ -106,9 +111,7 @@ const Todo_basic03 = () => {
                     </li>)
                 }
             </ul>
-            <input onChange={handlerInput} name='title' value={todo.title || ''} ref={ipref} />
-            <input onChange={handlerInput} name='content' value={todo.content || ''} />
-            <button onClick={handlerList}>WRITE</button>
+
             {console.log(todo, ipref.current)}
         </div>
     )
